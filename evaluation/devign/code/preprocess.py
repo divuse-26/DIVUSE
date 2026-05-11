@@ -30,23 +30,6 @@ logger.addHandler(stdout_handler)
 logger.addHandler(stderr_handler)
 logger.addHandler(console_handler)
 
-# def combine_vul_saf():
-#     # 合并生成的vul和采样来的saf
-#     input_gen_vul = "/root/devign/data/origin_input/vulgen.json"  # 以后只改这个
-#     input_gen_saf = "/root/devign/data/origin_input/real_world_nonvul_912.json"
-#     output = subprocess.run(
-#         "python ./data_preprocess/combine_json.py --input_gen_vul " + input_gen_vul + " --input_gen_saf " + input_gen_saf,
-#         shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-def combine_all():
-    # 合并所有
-    input_train = "/root/my_eval/RQ1/devign/dataset/bigvul_mygen.json"
-    input_gen = "/root/my_eval/RQ1/devign/dataset/devign_mygen.json"
-    input_test = "/root/my_eval/RQ1/devign/dataset/reveal_mygen.json"
-    output = subprocess.check_output(
-        "python ./data_preprocess/process_json.py --input_train " + input_train + " --input_gen " + input_gen + " --input_test " + input_test,
-        shell=True)
-    # logging.info(output.decode('utf-8'))
 
 def raw_code():
     # 生成raw_code
@@ -91,18 +74,6 @@ def joern_parse():
     logger.info(result.stdout.decode('utf-8'))
     logger.error(result.stderr.decode('utf-8'))
 
-    # raw_code_dir = "./data/gen_test/raw_code"
-    # for dir_name in tqdm(os.listdir(raw_code_dir)):
-    #     dir_path = os.path.join(raw_code_dir, dir_name)
-    #     if os.path.isdir(dir_path):
-    #         try:
-    #             result = subprocess.run(f"bash ./data_preprocess/code-slicer/joern/joern-parse {dir_path}", shell=True,
-    #                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    #             logger.info(result.stdout.decode('utf-8'))
-    #             logger.error(result.stderr.decode('utf-8'))
-    #         except Exception as e:
-    #             logger.error(f"Error running subprocess for directory {dir_name}: {e}. Skipping...")
-                
 
     # 删除joern_out_path/data/gen_test/raw_code/parsed下的nodes.csv和edges.csv文件
     nodes_csv_path = os.path.join(joern_out_path, "data/gen_test/raw_code/nodes.csv")
@@ -163,8 +134,6 @@ def split():
     logger.error(output.stderr.decode('utf-8'))
 
 if __name__ == '__main__':
-    # combine_vul_saf()
-    # combine_all()
     raw_code()
     # joern_rm()
     joern_parse()

@@ -1,17 +1,13 @@
-# 定义一个函数来处理SIGINT信号
 handle_sigint() {
-    echo "脚本已被Ctrl+C终止"
-    exit 1  # 退出脚本
+    echo "Ctrl+C signal"
+    exit 1
 }
-
-# 使用trap命令来捕获SIGINT信号，并调用handle_sigint函数
 trap handle_sigint SIGINT
 
 
 
 #!/bin/bash
 
-# 初始化参数
 datasets=()
 trainsets=()
 partsets=()
@@ -21,7 +17,6 @@ testsets2=()
 sf=()
 
 
-# 使用getopts处理命名参数
 while (( "$#" )); do
   case "$1" in
     --datasets)
@@ -73,11 +68,11 @@ while (( "$#" )); do
         shift
       done
       ;;
-    --) # 结束参数处理
+    --)
       shift
       break
       ;;
-    -*|--*=) # 不支持的参数
+    -*|--*=)
       echo "Error: Unsupported flag $1" >&2
       exit 1
       ;;
@@ -119,7 +114,7 @@ for sf in "${sf[@]}"; do
                   exec python -u ../code/main.py \
                   --mode train \
                   --dataset_root ../../devign_storage \
-                  --train_mode step_2000 \
+                  --train_mode train_epoch \
                   --dataset $dataset \
                   --seed "$seed" \
                   --sf "$sf" \
@@ -135,7 +130,7 @@ for sf in "${sf[@]}"; do
                   exec python -u ../code/main.py \
                   --mode train \
                   --dataset_root ../../devign_storage \
-                  --train_mode step_2000 \
+                  --train_mode train_epoch \
                   --dataset $dataset \
                   --seed "$seed" \
                   --sf "$sf" \
@@ -161,97 +156,3 @@ for sf in "${sf[@]}"; do
 done
 
 
-
-
-
-#train_srcs="/root/my_eval/RQ1/dataset/reveal_shard/reveal.json.shard1 \
-#/root/my_eval/RQ1/dataset/reveal_shard/reveal.json.shard2 \
-#/root/my_eval/RQ1/dataset/reveal_shard/reveal.json.shard3 \
-#/root/my_eval/RQ1/dataset/reveal_shard/reveal.json.shard4 "
-#
-#test_srcs="/root/my_eval/RQ1/dataset/reveal_shard/devign_test.shard1"
-#
-#declare -A extra_train_srcs=(
-#    ["baseline"]=""
-#    ["gen"]="/root/my_eval/RQ1/dataset/reveal_shard/reveal_gen.json.shard1"
-#)
-#
-#dataset_root="/root/my_eval/RQ1/devign/data_storage_generalization"
-#
-#seeds=(1000)
-#
-#for seed in "${seeds[@]}"; do
-#  for dataset in "${!extra_train_srcs[@]}"; do
-#    mkdir -p "$dataset_root/$dataset/models-seed$seed"
-#    printf "processing $dataset seed $seed\n"
-#    cmd="python -u main.py --mode train --dataset_root $dataset_root --train_mode step_2000 --dataset $dataset \
-#    --seed $seed --model_type devign \
-#    --train_src $train_srcs ${extra_train_srcs[$dataset]} --test_src $test_srcs \
-#    > $dataset_root/$dataset/models-seed$seed/$dataset.out \
-#    2> $dataset_root/$dataset/models-seed$seed/$dataset.err"
-#    echo $cmd
-#    eval $cmd
-#  done
-#done
-
-
-#train_srcs="/root/my_eval/RQ1/dataset/shard_same_set/train_baseline.json.shard1 \
-#/root/my_eval/RQ1/dataset/shard_same_set/train_baseline.json.shard2 \
-#/root/my_eval/RQ1/dataset/shard_same_set/train_baseline.json.shard3 \
-#/root/my_eval/RQ1/dataset/shard_same_set/train_baseline.json.shard4 "
-#train_srcs="/root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.json.shard1 \
-#/root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.json.shard2 \
-#/root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.json.shard3 \
-#/root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.json.shard4 \
-#/root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.json.shard5 "
-
-
-#test_srcs="/root/my_eval/RQ1/dataset/shard_same_set/test_baseline.json.shard1"
-#test_srcs="/root/my_eval/RQ1/dataset/shard_same_set/test_my_gen.json.shard1"
-
-#declare -A same_set_train_srcs=(
-#    ["baseline"]="/root/my_eval/RQ1/dataset/shard_same_set/train_baseline.shard1 \
-#                  /root/my_eval/RQ1/dataset/shard_same_set/train_baseline.shard2 \
-#                  /root/my_eval/RQ1/dataset/shard_same_set/train_baseline.shard3 \
-#                  /root/my_eval/RQ1/dataset/shard_same_set/train_baseline.shard4 "
-#    ["my_gen"]="/root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.shard1 \
-#                /root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.shard2 \
-#                /root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.shard3 \
-#                /root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.shard4 \
-#                /root/my_eval/RQ1/dataset/shard_same_set/train_my_gen.shard5 "
-#)
-#declare -A same_set_test_srcs=(
-#    ["baseline"]="/root/my_eval/RQ1/dataset/shard_same_set/test_baseline.shard1"
-#    ["my_gen"]="/root/my_eval/RQ1/dataset/shard_same_set/test_my_gen.shard1"
-#)
-#
-#dataset_root="/root/my_eval/RQ1/devign/data_storage_same_set"
-
-#dataset=$1
-#shift
-#subsets=($@)
-#
-#seeds=(1000)
-#for seed in "${seeds[@]}"; do
-#  for subset in "${subsets[@]}"; do
-#    output_root="../$dataset/data_storage_$(echo "$subset" | sed s@/@-@g)"
-#    if [ ! -d "$output_root" ]; then
-#      mkdir -p "$output_root"
-#    fi
-#
-#    trains=$(find ../"$dataset"/data/"$subset"/ -type f -name "*train*")
-#    tests=$(find ../"$dataset"/data/"$subset"/ -type f -name "*test*")
-##    echo "$output_root"
-##    echo "$trains"
-#    exec python  ../code/main.py \
-#    --mode train \
-#    --dataset_root "$output_root" \
-#    --train_mode step_2000 \
-#    --dataset "$subset" \
-#    --seed "$seed" \
-#    --model_type devign \
-#    --train_src $trains \
-#    --test_src $tests 2>&1 | tee "$output_root/$(echo "$subset" | sed s@/@-@g)_$seed.log"
-#
-#  done
-#done

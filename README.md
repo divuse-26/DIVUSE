@@ -1,4 +1,4 @@
-# DIGS #
+# DIVUSE #
 
 This is the implementation repository of paper: 
 
@@ -7,7 +7,7 @@ Not All Synthetic Vulnerabilities Are What You Need for Training Deep Vulnerabil
 
 ## Description ##
 
-we propose DIGS, a novel diversity-guided selection approach that enables the effective use of synthetic vulnerabilities for training deep vulnerability detectors.
+we propose DIVUSE, a novel diversity-guided selection approach that enables the effective use of synthetic vulnerabilities for training deep vulnerability detectors.
 
 ## Reproducibility ##
 ### Requirements ###
@@ -20,8 +20,8 @@ we propose DIGS, a novel diversity-guided selection approach that enables the ef
 - sinularity-ce==4.2.2 (for running the detector LineVD)
 
 ### Structure ###
-    |-DIGS/ "implementation for DIGS".
-    |-evaluation/ "contains the code for evaluating the DIGS and baseline approaches."
+    |-DIVUSE/ "implementation for DIVUSE".
+    |-evaluation/ "contains the code for evaluating the DIVUSE and baseline approaches."
     |   |-devign/ 
     |   |-linevul/
     |   |-linevd/
@@ -29,15 +29,15 @@ we propose DIGS, a novel diversity-guided selection approach that enables the ef
     |-results/ "tables of experimental results."
 
 ### Usage ###
-Selecting synthetic vulnerabilities with DIGS:
+Selecting synthetic vulnerabilities with DIVUSE:
 1. Download the original datasets and synthetic datasets by following the links in **Dataset** part. 
-2. Set the database path, output path, the select ratio in `/DIGS/select.sh`.
-3. Run `/DIGS/select.sh` to generate the synthetic subset indicies selected by DIGS.
+2. Set the database path, output path, the select ratio in `/DIVUSE/select.sh`.
+3. Run `/DIVUSE/select.sh` to generate the synthetic subset indicies selected by DIVUSE.
 
 Reproduce the evaluation results for vulnerability detectors:
 1. We provide the data and model files mentioned in our experiments in the following links: https://zenodo.org/records/17451702 You may download the dataset from this repository, or alternatively from the original dataset link provided at the end of this readme.
 2. Cd to the evaluation folder, set the synthetic subset indicies path and the dataset path in the scripts or the main file of the code, following the help of scripts `run_linevul.sh`, `run_devign.sh`, `run_linevd.sh`, `run_velvet.sh`, training and testing detectors. 
-3. We provide the compared baseline approaches code file under the `/DIGS` folder. Change the method name in the `/DIGS/select.sh` to run the baseline approaches.
+3. We provide the compared baseline approaches code file under the `/DIVUSE` folder. Change the method name in the `/DIVUSE/select.sh` to run the baseline approaches.
 4. Please note that Devign, LineVD and VELVET need a long-time preprocess. We provide the preprocess scripts in each detector's folder.
 
 ### Dataset ###

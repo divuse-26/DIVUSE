@@ -1,6 +1,6 @@
 
 
-# 初始化参数
+
 datasets=()
 trainsets=()
 partsets=()
@@ -9,7 +9,7 @@ seeds=()
 under=()
 selection=()
 
-# 使用getopts处理命名参数
+
 while (( "$#" )); do
   case "$1" in
     --datasets)
@@ -61,11 +61,11 @@ while (( "$#" )); do
         shift
       done
       ;;
-    --) # 结束参数处理
+    --)
       shift
       break
       ;;
-    -*|--*=) # 不支持的参数
+    -*|--*=)
       echo "Error: Unsupported flag $1" >&2
       exit 1
       ;;

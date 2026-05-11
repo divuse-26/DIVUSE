@@ -28,8 +28,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, help='Mode of the script (train/test)', default='train')
     parser.add_argument('--train_mode', type=str,
-                        help='Mode of the train (step_2000/patience_20/step_2000_valid/patience_20_valid)',
-                        default='step_2000')
+                        help='Mode of the train',
+                        default='train_epoch')
     parser.add_argument('--dataset_root', type=str, help='Root directory of the dataset.',
                         default='./data_storage')
     parser.add_argument('--dataset', type=str, help='Name of the dataset for experiment.',

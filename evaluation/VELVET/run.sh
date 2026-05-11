@@ -1,13 +1,10 @@
-# 定义一个函数来处理SIGINT信号
 handle_sigint() {
-    echo "脚本已被Ctrl+C终止"
-    exit 1  # 退出脚本
+    echo "Ctrl+C signal"
+    exit 1
 }
-
-# 使用trap命令来捕获SIGINT信号，并调用handle_sigint函数
 trap handle_sigint SIGINT
 
-# 初始化参数
+
 datasets=()
 trainsets=()
 partsets=()
@@ -16,7 +13,7 @@ seeds=()
 under=()
 selection=()
 
-# 使用getopts处理命名参数
+
 while (( "$#" )); do
   case "$1" in
     --datasets)
@@ -79,7 +76,6 @@ while (( "$#" )); do
   esac
 done
 
-# 在这里，你可以使用$datasets和$testsets数组
 echo "Datasets: ${datasets[@]}"
 echo "Trainsets: ${trainsets[@]}"
 echo "Partsets: ${partsets[@]}"
@@ -108,7 +104,7 @@ for dataset in "${datasets[@]}"; do
                 --train_data_file=./storage/${trainset}.csv \
                 --part_data_file=./storage/${partset}.csv \
                 --test_data_file=./storage/${testset}.csv \
-                --joern_output_dir=/home/?/my_eval/linevd-vgx/storage/processed \
+                --joern_output_dir=/home/?/storage/processed \
                 --under $under \
                 --selection $selection \
                 --epochs 10 \

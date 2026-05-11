@@ -1,6 +1,10 @@
+handle_sigint() {
+    echo "Ctrl+C signal"
+    exit 1
+}
+trap handle_sigint SIGINT
 export CUDA_VISIBLE_DEVICES=0
 echo "Using GPU(s): $CUDA_VISIBLE_DEVICES"
-trap handle_sigint SIGINT
 
 trainsets="bigvul"
 testsets="reveal"

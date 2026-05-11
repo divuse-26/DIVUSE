@@ -44,7 +44,7 @@ from tokenizers import Tokenizer
 # from imblearn.over_sampling import SMOTE
 # from imblearn.over_sampling import RandomOverSampler
 
-import DIGS
+import DIVUSE
 import generate_importance_score as gis
 import time
 
@@ -366,18 +366,18 @@ def main():
         logger.info(f"part neg dataset size: {len(neg_examples)}")
 
         if args.under != 1.0:
-            if args.over == "DIGS":
+            if args.over == "DIVUSE":
                 output_dir = os.path.dirname(args.output_dir)
                 part_dataset.examples = pos_examples
-                DIGS.get_cls(args, model, train_dataset, part_dataset, save_path)
+                DIVUSE.get_cls(args, model, train_dataset, part_dataset, save_path)
                 # pdb.set_trace()
-                train_pos, train_neg, part_pos, part_neg = DIGS.load_cls(save_path)
+                train_pos, train_neg, part_pos, part_neg = DIVUSE.load_cls(save_path)
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
                     print(f"create {save_path}")
-                DIGS.selector(train_pos, train_neg, part_pos, part_neg, save_path, output_dir, args.handlesets,
+                DIVUSE.selector(train_pos, train_neg, part_pos, part_neg, save_path, output_dir, args.handlesets,
                                    args.under, args.over, args)
-                DIGS.filter(train_dataset, part_dataset, output_dir, args.handlesets)
+                DIVUSE.filter(train_dataset, part_dataset, output_dir, args.handlesets)
                 neg_examples = neg_examples[:int(len(neg_examples) * args.under)]
                 logger.info(f"part neg dataset size: {len(neg_examples)}")
                 train_dataset.examples += part_dataset.examples
